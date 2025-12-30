@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Abby — Client Intake</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Client intake + instant estimate for custom web pages, portfolios, trackers, and interactive minisites. Made by Abby." />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Abby — Client Intake" />
+  <meta property="og:description" content="Tell me what you want built and get a quick estimate. I reply ASAP via email." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#d9eadf" />
+
+  <style>
+    :root{
+      --bg1:#f7fbf8;
+      --bg2:#fff7fb;
+      --card:#ffffffd6;
+      --line:#d8e6dd;
+      --ink:#0f1a14;
+      --muted:#54645b;
+      --sage:#b8d6c2;
+      --sage2:#7fb39a;
+      --pink:#f3b7c7;
+      --pink2:#ffcfdf;
+      --shadow: 0 18px 50px rgba(12, 26, 18, .10);
+      --round: 22px;
+      --round2: 16px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(900px 520px at 18% 10%, rgba(127,179,154,.22), transparent 60%),
+        radial-gradient(820px 540px at 82% 22%, rgba(243,183,199,.28), transparent 62%),
+        radial-gradient(900px 520px at 50% 110%, rgba(184,214,194,.18), transparent 62%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* fade-in */
+    .page{
+      opacity:0;
+      transform: translateY(12px);
+      animation: enter .75s var(--ease) forwards;
+      padding: 34px 18px 56px;
+    }
+    @keyframes enter{to{opacity:1; transform:none}}
+
+    /* floating hearts */
+    .hearts{
+      position:fixed; inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:0;
+    }
+    .heart{
+      position:absolute;
+      width:10px; height:10px;
+      transform: rotate(45deg);
+      border-radius:3px;
+      opacity:.18;
+      filter: blur(.2px);
+      animation: floatUp linear forwards;
+      background: linear-gradient(180deg, rgba(243,183,199,.9), rgba(184,214,194,.9));
+      box-shadow: 0 0 0 1px rgba(255,255,255,.35) inset;
+    }
+    .heart:before, .heart:after{
+      content:"";
+      position:absolute;
+      width:10px; height:10px;
+      border-radius:50%;
+      background: inherit;
+      left:-5px; top:0;
+    }
+    .heart:after{
+      left:0; top:-5px;
+    }
+    @keyframes floatUp{
+      from{ transform: translateY(40px) rotate(45deg); opacity:.0 }
+      10%{opacity:.18}
+      to{ transform: translateY(-120vh) rotate(45deg); opacity:0 }
+    }
+
+    .wrap{
+      max-width: 1080px;
+      margin: 0 auto;
+      position:relative;
+      z-index:1;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom: 16px;
+    }
+
+    .brand{
+      display:flex; flex-direction:column; gap:6px;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 22px;
+      letter-spacing:.2px;
+    }
+    .brand p{
+      margin:0;
+      color:var(--muted);
+      font-size: 13px;
+      line-height:1.4;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.7);
+      border:1px solid var(--line);
+      box-shadow: 0 10px 28px rgba(12,26,18,.06);
+      color:var(--muted);
+      font-size: 13px;
+      white-space:nowrap;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.25)),
+                  linear-gradient(180deg, var(--sage2), var(--pink));
+      box-shadow: 0 0 0 2px rgba(255,255,255,.55);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items:start;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid rgba(216,230,221,.9);
+      box-shadow: var(--shadow);
+      border-radius: var(--round);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+
+    .cardHead{
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid rgba(216,230,221,.7);
+      background:
+        radial-gradient(420px 180px at 20% 0%, rgba(127,179,154,.18), transparent 60%),
+        radial-gradient(420px 180px at 80% 0%, rgba(243,183,199,.22), transparent 60%);
+    }
+
+    .cardHead h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    clarif
+    .cardHead .sub{
+      margin-top:6px;
+      color:var(--muted);
+      font-size: 13px;
+    }
+
+    .cardBody{
+      padding: 16px 18px 18px;
+    }
+
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 12px 0 6px;
+    }
+
+    input, textarea, select{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(216,230,221,.95);
+      background: rgba(255,255,255,.82);
+      outline:none;
+      font-size: 14px;
+      color: var(--ink);
+      transition: transform .12s var(--ease), box-shadow .12s var(--ease), border-color .12s var(--ease);
+    }
+    textarea{min-height: 120px; resize: vertical}
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(127,179,154,.85);
+      box-shadow: 0 0 0 4px rgba(127,179,154,.12);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .checks{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .check{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(216,230,221,.95);
+      background: rgba(255,255,255,.72);
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s var(--ease), box-shadow .12s var(--ease);
+    }
+    .check:hover{ transform: translateY(-1px); box-shadow: 0 10px 26px rgba(12,26,18,.08); }
+    .check input{ width:auto; margin:0 }
+
+    .estimateBox{
+      padding: 16px 18px 18px;
+    }
+    .estimate{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      padding: 14px 14px;
+      border-radius: 18px;
+      border:1px solid rgba(216,230,221,.95);
+      background:
+        radial-gradient(380px 120px at 20% 0%, rgba(127,179,154,.14), transparent 65%),
+        radial-gradient(380px 120px at 80% 0%, rgba(243,183,199,.18), transparent 65%),
+        rgba(255,255,255,.78);
+    }
+    .estimate .big{
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: .3px;
+      line-height: 1;
+    }
+    .estimate .small{
+      color:var(--muted);
+      font-size: 12px;
+      line-height:1.3;
+    }
+
+    .sliderWrap{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(216,230,221,.95);
+      background: rgba(255,255,255,.72);
+    }
+    .sliderTop{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom: 10px;
+    }
+    .sliderTop b{font-size:13px}
+    .sliderTop span{color:var(--muted); font-size:12px}
+    input[type="range"]{
+      padding:0;
+      height: 24px;
+      background: transparent;
+      border:none;
+      box-shadow:none;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top: 14px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      transition: transform .12s var(--ease), box-shadow .12s var(--ease), filter .12s var(--ease);
+    }
+    .btnPrimary{
+      color: #0f1a14;
+      background: linear-gradient(90deg, rgba(127,179,154,.55), rgba(243,183,199,.55));
+      box-shadow: 0 16px 40px rgba(12,26,18,.12);
+    }
+    .btnGhost{
+      background: rgba(255,255,255,.70);
+      border:1px solid rgba(216,230,221,.95);
+      color: var(--ink);
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0px); filter: brightness(.98); }
+
+    .note{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.5;
+    }
+
+    .rightPad{
+      padding: 18px;
+    }
+
+    .miniCard{
+      border-radius: var(--round);
+      border: 1px solid rgba(216,230,221,.95);
+      background: rgba(255,255,255,.70);
+      padding: 16px;
+      box-shadow: 0 14px 34px rgba(12,26,18,.08);
+      margin-bottom: 12px;
+    }
+    .miniCard h3{
+      margin:0;
+      font-size: 15px;
+      letter-spacing:.2px;
+    }
+    .miniCard p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size: 13px;
+      line-height:1.4;
+    }
+
+    .contactLine{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .link{
+      text-decoration:none;
+      color: var(--ink);
+      font-weight:800;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 10px;
+      border:1px solid rgba(216,230,221,.95);
+      background: rgba(255,255,255,.75);
+      color: var(--muted);
+    }
+
+    /* toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      z-index: 999;
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(216,230,221,.95);
+      box-shadow: 0 18px 50px rgba(12,26,18,.12);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .2s var(--ease), transform .2s var(--ease);
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    /* responsive */
+    @media (max-width: 940px){
+      .grid{ grid-template-columns: 1fr; }
+      .row{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <main class="page">
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <h1>client intake</h1>
+          <p>tell me what you want — I’ll reply ASAP via email.</p>
+        </div>
+        <div class="pill" title="made by">
+          <span class="dot"></span>
+          <span>made by <b>abby</b> ♡</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- left -->
+        <section class="card">
+          <div class="cardHead">
+            <h2>project details</h2>
+            <div class="sub">custom web + interactive projects (clean, cute, mobile-friendly).</div>
+          </div>
+
+          <div class="cardBody">
+            <label>your name / alias</label>
+            <input id="name" placeholder="how should I refer to you?" />
+
+            <label>contact email</label>
+            <input id="email" type="email" placeholder="your@email.com" />
+
+            <label>project type</label>
+            <select id="type">
+              <option value="onepager">one-page site / landing page</option>
+              <option value="portfolio">portfolio / link hub</option>
+              <option value="tool">tracker / mini tool (logs, timers, etc)</option>
+              <option value="interactive">interactive page (animations, audio, fun UI)</option>
+              <option value="other">other / tell me in the description</option>
+            </select>
+
+            <div class="row">
+              <div>
+                <label>project size</label>
+                <select id="size">
+                  <option value="small">small</option>
+                  <option value="medium" selected>medium</option>
+                  <option value="large">large</option>
+                </select>
+              </div>
+              <div>
+                <label>deadline / timeframe</label>
+                <input id="deadline" placeholder="ex: 1 week, flexible" />
+              </div>
+            </div>
+
+            <label>describe your project</label>
+            <textarea id="desc" placeholder="vibe, references, features you want, examples you like…"></textarea>
+
+            <div class="checks">
+              <label class="check"><input id="rush" type="checkbox" /> rush turnaround (+35%)</label>
+              <label class="check"><input id="copy" type="checkbox" /> copywriting help (+$15)</label>
+              <label class="check"><input id="extras" type="checkbox" /> extra sections/features (+$25)</label>
+            </div>
+          </div>
+
+          <div class="estimateBox">
+            <div class="estimate">
+              <div>
+                <div class="small">estimated total</div>
+                <div class="big" id="estimate">$0</div>
+              </div>
+              <div class="small" style="text-align:right; max-width: 220px" id="estNote">
+                adjust options for a better estimate
+              </div>
+            </div>
+
+            <div class="sliderWrap">
+              <div class="sliderTop">
+                <b>complexity / detail level</b>
+                <span id="complexityLabel">50%</span>
+              </div>
+              <input id="complexity" type="range" min="0" max="100" value="50" />
+              <div class="small" style="margin-top:8px; color:var(--muted)">
+                simple → lower • interactive/animations → higher
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn btnPrimary" id="emailBtn">email this intake</button>
+              <button class="btn btnGhost" id="copyBtn">copy message</button>
+              <button class="btn btnGhost" id="resetBtn">reset</button>
+            </div>
+
+            <div class="note">
+              quickest response: email <b>cantwaitallday@aol.com</b><br/>
+              prices are estimates — final quote depends on exact scope + assets provided.
+            </div>
+          </div>
+        </section>
+
+        <!-- right -->
+        <aside class="rightPad">
+          <div class="miniCard">
+            <h3>what happens next</h3>
+            <p>
+              you send the intake → I review it → I reply ASAP with questions + a final quote + timeline.
+            </p>
+          </div>
+
+          <div class="miniCard">
+            <h3>price vibes</h3>
+            <p>
+              all prices vary by design complexity, size, features, and timeline.<br/>
+              average project range: <b>$75–$120</b> (bigger builds can go higher).
+            </p>
+          </div>
+
+          <div class="miniCard">
+            <h3>tips to get a faster quote</h3>
+            <p>
+              include: 1–2 reference links, your color palette, and your must-have features.
+            </p>
+          </div>
+
+          <div class="miniCard">
+            <h3>more socials</h3>
+            <p>coming soon (fiverr + other platforms).</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">copied ♡</div>
+
+  <script>
+    // floating hearts background
+    const hearts = document.getElementById('hearts');
+    function spawnHeart(){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      const size = Math.random()*10 + 8;
+      h.style.width = size + 'px';
+      h.style.height = size + 'px';
+      h.style.left = (Math.random()*100) + 'vw';
+      h.style.bottom = (-20) + 'px';
+      h.style.animationDuration = (Math.random()*8 + 8) + 's';
+      h.style.opacity = (Math.random()*0.14 + 0.08).toFixed(2);
+      hearts.appendChild(h);
+      setTimeout(()=> h.remove(), 17000);
+    }
+    for(let i=0;i<10;i++) setTimeout(spawnHeart, i*400);
+    setInterval(spawnHeart, 900);
+
+    const $ = (id)=>document.getElementById(id);
+
+    const state = {
+      base: 0,
+      estimate: 0
+    };
+
+    const pricing = {
+      typeBase: {
+        onepager: 55,
+        portfolio: 75,
+        tool: 95,
+        interactive: 115,
+        other: 60
+      },
+      sizeMult: {
+        small: 0.85,
+        medium: 1.0,
+        large: 1.25
+      },
+      addOns: {
+        copy: 15,
+        extras: 25
+      },
+      rushMult: 1.35,
+      max: 500
+    };
+
+    function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+
+    function calc(){
+      const type = $('type').value;
+      const size = $('size').value;
+      const complexity = parseInt($('complexity').value, 10);
+
+      const base = pricing.typeBase[type] * pricing.sizeMult[size];
+      // complexity adds up to +60% at 100%
+      const compMult = 1 + (complexity/100) * 0.60;
+
+      let total = base * compMult;
+
+      if ($('copy').checked) total += pricing.addOns.copy;
+      if ($('extras').checked) total += pricing.addOns.extras;
+
+      if ($('rush').checked) total *= pricing.rushMult;
+
+      // make it feel like a range-y estimate but keep clean
+      total = Math.round(total / 5) * 5;
+
+      total = clamp(total, 0, pricing.max);
+
+      $('complexityLabel').textContent = complexity + '%';
+      $('estimate').textContent = '$' + total;
+      $('estNote').textContent =
+        total < 75 ? 'budget-friendly build (simple + clean)' :
+        total < 140 ? 'typical range for most projects' :
+        total < 240 ? 'feature-heavy / more custom UI' :
+        total < 360 ? 'advanced build (interactive + extra polish)' :
+        'max range estimate — big scope vibes';
+
+      state.estimate = total;
+      state.base = base;
+    }
+
+    function buildMessage(){
+      const lines = [];
+      lines.push("CLIENT INTAKE — Abby");
+      lines.push("--------------------------------");
+      lines.push("Name/Alias: " + ($('name').value || "(not provided)"));
+      lines.push("Email: " + ($('email').value || "(not provided)"));
+      lines.push("Type: " + $('type').value);
+      lines.push("Size: " + $('size').value);
+      lines.push("Deadline: " + ($('deadline').value || "(flexible/none)"));
+      lines.push("Complexity: " + $('complexity').value + "%");
+      lines.push("Add-ons: " + [
+        $('rush').checked ? "rush (+35%)" : null,
+        $('copy').checked ? "copywriting (+$15)" : null,
+        $('extras').checked ? "extra features (+$25)" : null
+      ].filter(Boolean).join(", ") || "none");
+      lines.push("Estimate: $" + state.estimate + " (0–500 cap)");
+      lines.push("");
+      lines.push("Description:");
+      lines.push(($('desc').value || "(no description)") );
+      lines.push("");
+      lines.push("Send to: cantwaitallday@aol.com");
+      return lines.join("\n");
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("copied ♡");
+      }catch{
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        showToast("copied ♡");
+      }
+    }
+
+    function showToast(msg){
+      const t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'), 1200);
+    }
+
+    // events
+    ['type','size','rush','copy','extras','complexity'].forEach(id=>{
+      $(id).addEventListener('input', calc);
+      $(id).addEventListener('change', calc);
+    });
+    $('desc').addEventListener('input', ()=>{ calc(); });
+
+    $('copyBtn').addEventListener('click', ()=> copyText(buildMessage()));
+
+    $('emailBtn').addEventListener('click', ()=>{
+      const subject = encodeURIComponent("Client Intake — " + ($('name').value || "New Client"));
+      const body = encodeURIComponent(buildMessage());
+      // opens user's email client
+      window.location.href = `mailto:cantwaitallday@aol.com?subject=${subject}&body=${body}`;
+    });
+
+    $('resetBtn').addEventListener('click', ()=>{
+      ['name','email','deadline','desc'].forEach(id=>$(id).value="");
+      $('type').value="onepager";
+      $('size').value="medium";
+      $('rush').checked=false;
+      $('copy').checked=false;
+      $('extras').checked=false;
+      $('complexity').value=50;
+      calc();
+      showToast("reset");
+    });
+
+    // init
+    calc();
+  </script>
+</body>
+</html>
